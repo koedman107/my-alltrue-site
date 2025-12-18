@@ -1,0 +1,68 @@
+/* 1. 繪圖板外框 */
+.drawing-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1;
+    margin: 20px auto;
+    border: 2px solid #e5e7eb;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: white;
+}
+
+/* 2. 九宮格線條 (底層) */
+.nine-square-grid {
+    position: absolute;
+    width: 90%; 
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #d1d5db;
+    z-index: 1; /* 低層級 */
+    pointer-events: none;
+}
+
+.nine-square-grid::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, transparent 33%, #e5e7eb 33%, #e5e7eb 33.5%, transparent 33.5%, transparent 66%, #e5e7eb 66%, #e5e7eb 66.5%, transparent 66.5%);
+}
+
+.nine-square-grid::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent 33%, #e5e7eb 33%, #e5e7eb 33.5%, transparent 33.5%, transparent 66%, #e5e7eb 66%, #e5e7eb 66.5%, transparent 66.5%);
+}
+
+/* 3. 漢字容器 (高層) */
+#hanziContainer {
+    position: absolute;
+    width: 90% !important; 
+    height: 90% !important;
+    top: 50%;
+    left: 50%;
+    /* 確保文字置中且浮於格線上方 */
+    transform: translate(-55%, -52%); 
+    z-index: 10; /* 高層級，確保蓋在格線上 */
+}
+
+/* 確保內部 SVG 自動填滿 */
+#hanziContainer svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 4. 提示文字樣式 */
+.prompt-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #9ca3af;
+    z-index: 5;
+    pointer-events: none;
+}
