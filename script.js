@@ -153,6 +153,35 @@ document.addEventListener('DOMContentLoaded', () => {
             loadCharacter(charactersArray[currentCharacterIndex]);
         }
     });
-// 必須補上這兩行，關閉事件監聽與 startPractice 呼叫
-    startPractice(); 
-});
+    // 補上「上一個字」按鈕監聽
+    if (prevWordBtn) {
+        prevWordBtn.addEventListener('click', () => {
+            if (currentCharacterIndex > 0) {
+                currentCharacterIndex--;
+                nextWordBtn.classList.remove('animate-pulse');
+                loadCharacter(charactersArray[currentCharacterIndex]);
+            }
+        });
+    }
+
+    // 補上「重寫」按鈕監聽
+    clearButton.addEventListener('click', () => {
+        if (currentWriter) loadCharacter(charactersArray[currentCharacterIndex]);
+    });
+
+    // 補上「示範動畫」按鈕監聽
+    animateButton.addEventListener('click', () => {
+        if (currentWriter) {
+            statusMessage.textContent = '觀看示範中...';
+            currentWriter.cancelQuiz();
+            currentWriter.animateCharacter({
+                onComplete: () => {
+                    statusMessage.textContent = '現在換你試試看！';
+                    loadCharacter(charactersArray[currentCharacterIndex]);
+                }
+            });
+        }
+    });
+
+    startPractice(); // 啟動初始練習
+}); // 確保這兩行結束 DOMContentLoaded
