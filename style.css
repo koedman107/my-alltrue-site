@@ -1,7 +1,7 @@
-/* 1. 繪圖板外框 */
+/* 1. 繪圖板外框 - 基礎設定 */
 .drawing-container {
     position: relative;
-    width: 100%;
+    width: 95%;
     max-width: 500px;
     aspect-ratio: 1 / 1;
     margin: 20px auto;
@@ -9,18 +9,19 @@
     border-radius: 1rem;
     overflow: hidden;
     background-color: white;
+    max-height: 70vh;
 }
 
 /* 2. 九宮格線條 (底層) */
 .nine-square-grid {
     position: absolute;
-    width: 90%; 
-    height: 90%;
+    width: 95%; 
+    height: 95%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: 2px solid #d1d5db;
-    z-index: 1; /* 低層級 */
+    z-index: 1;
     pointer-events: none;
 }
 
@@ -41,16 +42,16 @@
 /* 3. 漢字容器 (高層) */
 #hanziContainer {
     position: absolute;
-    width: 90% !important; 
-    height: 90% !important;
+    width: 95% !important; 
+    height: 95% !important;
     top: 50%;
     left: 50%;
-    /* 確保文字置中且浮於格線上方 */
-    transform: translate(-55%, -52%); 
-    z-index: 10; /* 高層級，確保蓋在格線上 */
+    transform: translate(-50%, -50%); 
+    z-index: 10;
+    margin: 0;
+    padding: 0;
 }
 
-/* 確保內部 SVG 自動填滿 */
 #hanziContainer svg {
     width: 100% !important;
     height: 100% !important;
@@ -65,4 +66,46 @@
     color: #9ca3af;
     z-index: 5;
     pointer-events: none;
+}
+
+/* ============================================= */
+/* 5. 針對手機與平板 (寬度小於 600px) 的排版優化 */
+/* ============================================= */
+@media (max-width: 600px) {
+    /* 修正輸入框與按鈕擠壓：強制變為上下排列 */
+    .flex.gap-2 {
+        flex-direction: column !important;
+    }
+    
+    #loadTextBtn {
+        width: 100% !important;
+        padding: 12px 0 !important;
+        margin-top: 4px;
+    }
+
+    /* 縮小畫板大小：確保手機一屏能看完整個 UI */
+    .drawing-container {
+        width: 90vw !important;
+        max-width: 320px !important;
+        margin: 10px auto !important;
+    }
+
+    .prompt-text {
+        font-size: 1.1rem;
+    }
+
+    /* 下方功能按鈕調整 */
+    .grid.grid-cols-2.gap-4 {
+        gap: 10px !important;
+    }
+
+    #clearBtn, #nextWordBtn {
+        padding: 12px 10px !important;
+        font-size: 0.95rem;
+    }
+
+    h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.8rem !important;
+    }
 }

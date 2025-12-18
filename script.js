@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const WRITER_CONFIG = {
         width: 500,
         height: 500,
-        padding: 30, 
+        padding: 0, 
         showCharacter: false,
         showOutline: true,
         outlineColor: COLORS.outline,
