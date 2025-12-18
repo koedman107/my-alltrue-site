@@ -1,4 +1,4 @@
-/* 1. 繪圖板外框 - 基礎設定 */
+/* 1. ç¹ªåœ–æ¿å¤–æ¡† - åŸºç¤Žè¨­å®š */
 .drawing-container {
     position: relative;
     width: 95%;
@@ -12,7 +12,7 @@
     max-height: 70vh;
 }
 
-/* 2. 九宮格線條 (底層) */
+/* 2. ä¹å®®æ ¼ç·šæ¢ (åº•å±¤) */
 .nine-square-grid {
     position: absolute;
     width: 95%; 
@@ -39,17 +39,17 @@
     background: linear-gradient(to bottom, transparent 33%, #e5e7eb 33%, #e5e7eb 33.5%, transparent 33.5%, transparent 66%, #e5e7eb 66%, #e5e7eb 66.5%, transparent 66.5%);
 }
 
-/* 3. 漢字容器 (高層) */
+/* 3. æ¼¢å­—å®¹å™¨ (é«˜å±¤) */
 #hanziContainer {
     position: absolute;
-    width: 95% !important; 
-    height: 95% !important;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
+    width: 100% !important; 
+    height: 100% !important;
+    top: 0;
+    left: 0;
+    transform: none; 
     z-index: 10;
     margin: 0;
-    padding: 0;
+    padding: 10;
 }
 
 #hanziContainer svg {
@@ -57,7 +57,7 @@
     height: 100% !important;
 }
 
-/* 4. 提示文字樣式 */
+/* 4. æç¤ºæ–‡å­—æ¨£å¼ */
 .prompt-text {
     position: absolute;
     top: 50%; left: 50%;
@@ -69,10 +69,10 @@
 }
 
 /* ============================================= */
-/* 5. 針對手機與平板 (寬度小於 600px) 的排版優化 */
+/* 5. é‡å°æ‰‹æ©Ÿèˆ‡å¹³æ¿ (å¯¬åº¦å°æ–¼ 600px) çš„æŽ’ç‰ˆå„ªåŒ– */
 /* ============================================= */
 @media (max-width: 600px) {
-    /* 修正輸入框與按鈕擠壓：強制變為上下排列 */
+    /* ä¿®æ­£è¼¸å…¥æ¡†èˆ‡æŒ‰éˆ•æ“ å£“ï¼šå¼·åˆ¶è®Šç‚ºä¸Šä¸‹æŽ’åˆ— */
     .flex.gap-2 {
         flex-direction: column !important;
     }
@@ -83,7 +83,7 @@
         margin-top: 4px;
     }
 
-    /* 縮小畫板大小：確保手機一屏能看完整個 UI */
+    /* ç¸®å°ç•«æ¿å¤§å°ï¼šç¢ºä¿æ‰‹æ©Ÿä¸€å±èƒ½çœ‹å®Œæ•´å€‹ UI */
     .drawing-container {
         width: 90vw !important;
         max-width: 320px !important;
@@ -94,7 +94,7 @@
         font-size: 1.1rem;
     }
 
-    /* 下方功能按鈕調整 */
+    /* ä¸‹æ–¹åŠŸèƒ½æŒ‰éˆ•èª¿æ•´ */
     .grid.grid-cols-2.gap-4 {
         gap: 10px !important;
     }

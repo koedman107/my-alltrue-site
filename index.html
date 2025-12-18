@@ -42,15 +42,28 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            <button id="clearBtn" class="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-4 rounded-xl transition duration-150 shadow-sm flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/></svg>
-                重寫
-            </button>
-            <button id="nextWordBtn" disabled class="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition duration-150 shadow-sm flex items-center justify-center gap-2">
-                下一個字
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </button>
-        </div>
+
+<div id="char-info" class="mt-4 p-4 bg-white rounded-xl shadow-sm border border-slate-200">
+    <div class="flex items-center justify-between mb-2">
+        <span class="text-blue-600 font-bold text-lg">部首：<span id="radical-name">--</span></span>
+        <span class="text-slate-500 text-sm">筆畫：<span id="stroke-count">--</span> 畫</span>
+    </div>
+    <div class="text-slate-700 text-sm leading-relaxed border-t pt-2">
+        <span class="font-medium text-slate-800">釋義：</span>
+        <span id="char-definition" class="italic">請載入文字...</span>
+    </div>
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-4">
+    <button id="clearBtn" class="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold py-3 px-4 rounded-xl transition duration-150 shadow-sm flex items-center justify-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/></svg>
+        重寫
+    </button>
+    <button id="nextWordBtn" disabled class="bg-emerald-500 hover:bg-emerald-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition duration-150 shadow-sm flex items-center justify-center gap-2">
+        下一個字
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+</div>
         
         <div class="mt-6 text-center">
              <button id="animateBtn" class="text-sm text-blue-500 hover:text-blue-700 font-medium underline">

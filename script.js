@@ -9,18 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const promptTextElement = document.getElementById('promptText');
     const loadTextBtn = document.getElementById('loadTextBtn');
     const nextWordBtn = document.getElementById('nextWordBtn');
+    const prevWordBtn = document.getElementById('prevWordBtn'); // 新增：上一個字按鈕
     const textInput = document.getElementById('textInput');
     const clearButton = document.getElementById('clearBtn');
     const animateButton = document.getElementById('animateBtn');
     const progressText = document.getElementById('progressText');
     const statusMessage = document.getElementById('statusMessage');
     const loadingSpinner = document.getElementById('loadingSpinner');
+
+    // 新增：字典資訊元素 (請確保 HTML 有對應 ID)
+    const radicalName = document.getElementById('radical-name');
+    const strokeCount = document.getElementById('stroke-count');
+    const charDefinition = document.getElementById('char-definition');
     
-    // 設定參數：已將筆劃改為亮藍色 #36C1FF
+    // 設定參數
     const COLORS = {
-        outline: '#e2e8f0',   // 淺灰底稿
-        stroke: '#36C1FF',    // 亮藍色筆觸 (已更新)
-        highlight: '#10b981'  // 綠色完成
+        outline: '#e2e8f0',   
+        stroke: '#36C1FF',    
+        highlight: '#10b981'  
     };
     
     const WRITER_CONFIG = {
@@ -36,6 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
         delayBetweenStrokes: 200
     };
 
+    // 新增：抓取萌典資料功能
+    async function fetchCharInfo(char) {
+        if (!radicalName) return; // 防止 HTML 沒寫標籤導致噴錯
+        try {
+            const response = await fetch(`https://www.moedict.tw/uni/${char}`);
+            const data = await response.json();
+            
+            radicalName.textContent = data.radical || "--";
+            strokeCount.textContent = data.stroke_count || "--";
+            charDefinition.textContent = data.heteronyms?.[0]?.definitions?.[0]?.def || "暫無解釋";
+        } catch (err) {
+            console.error('字典載入失敗:', err);
+            charDefinition.textContent = "無法載入字典資訊";
+        }
+    }
+
     function showLoading(show) {
         loadingSpinner.style.display = show ? 'flex' : 'none';
     }
@@ -49,12 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (charactersArray.length === 0) {
             nextWordBtn.disabled = true;
+            if (prevWordBtn) prevWordBtn.disabled = true;
             clearButton.disabled = true;
             animateButton.style.display = 'none';
         } else {
             clearButton.disabled = false;
             animateButton.style.display = 'inline-block';
-            nextWordBtn.disabled = true; 
+            
+            // 自由切換模式：不強制鎖定按鈕，由 index 判斷是否可按
+            nextWordBtn.disabled = (currentCharacterIndex >= charactersArray.length - 1);
+            if (prevWordBtn) prevWordBtn.disabled = (currentCharacterIndex === 0);
         }
     }
 
@@ -66,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.textContent = '請跟著描寫...';
         statusMessage.className = 'text-sm font-bold text-blue-600 h-5';
         
-        nextWordBtn.disabled = true;
-        nextWordBtn.classList.remove('animate-pulse');
+        // 抓取字典資訊
+        fetchCharInfo(char);
 
         try {
             currentWriter = HanziWriter.create('hanziContainer', char, WRITER_CONFIG);
@@ -87,14 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     statusMessage.className = 'text-sm font-bold text-emerald-600 h-5';
                     
                     setTimeout(() => {
-                        // 更新顏色為完成綠色
                         currentWriter.updateColor('strokeColor', COLORS.highlight);
-                        
+                        // 寫完後可以讓下一個字按鈕閃爍，提示使用者可以跳下一個
                         if (currentCharacterIndex < charactersArray.length - 1) {
-                            nextWordBtn.disabled = false;
                             nextWordBtn.classList.add('animate-pulse');
-                        } else {
-                            nextWordBtn.textContent = '全部完成';
                         }
                     }, 300);
                 }
@@ -105,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             promptTextElement.textContent = `無法載入「${char}」`;
         } finally {
             showLoading(false);
+            updateUIState(); // 每次載入完確保按鈕狀態正確
         }
     }
 
@@ -116,35 +139,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentCharacterIndex = 0;
         nextWordBtn.textContent = '下一個字';
-        updateUIState();
         loadCharacter(charactersArray[currentCharacterIndex]);
     }
 
     // 事件監聽
     loadTextBtn.addEventListener('click', startPractice);
     textInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startPractice(); });
+    
     nextWordBtn.addEventListener('click', () => {
         if (currentCharacterIndex < charactersArray.length - 1) {
             currentCharacterIndex++;
-            updateUIState();
+            nextWordBtn.classList.remove('animate-pulse');
             loadCharacter(charactersArray[currentCharacterIndex]);
         }
     });
-    clearButton.addEventListener('click', () => {
-        if (currentWriter) loadCharacter(charactersArray[currentCharacterIndex]);
-    });
-    animateButton.addEventListener('click', () => {
-        if (currentWriter) {
-            statusMessage.textContent = '觀看示範中...';
-            currentWriter.cancelQuiz();
-            currentWriter.animateCharacter({
-                onComplete: () => {
-                    statusMessage.textContent = '現在換你試試看！';
-                    loadCharacter(charactersArray[currentCharacterIndex]); // 動畫完重新開始測驗
-                }
-            });
-        }
-    });
-
-    startPractice();
+// 必須補上這兩行，關閉事件監聽與 startPractice 呼叫
+    startPractice(); 
 });
