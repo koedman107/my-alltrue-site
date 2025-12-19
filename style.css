@@ -1,4 +1,4 @@
-/* 1. ç¹ªåœ–æ¿å¤–æ¡† - åŸºç¤Žè¨­å®š */
+/* 1. 繪圖板外框 - 基礎設定 */
 .drawing-container {
     position: relative;
     width: 95%;
@@ -12,7 +12,7 @@
     max-height: 70vh;
 }
 
-/* 2. ä¹å®®æ ¼ç·šæ¢ (åº•å±¤) */
+/* 2. 九宮格線條 (底層) */
 .nine-square-grid {
     position: absolute;
     width: 95%; 
@@ -24,14 +24,14 @@
     z-index: 1;
     pointer-events: none;
 }
-
+/* 九宮格直線 */
 .nine-square-grid::before {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to right, transparent 33%, #e5e7eb 33%, #e5e7eb 33.5%, transparent 33.5%, transparent 66%, #e5e7eb 66%, #e5e7eb 66.5%, transparent 66.5%);
 }
-
+/* 九宮格橫線 */
 .nine-square-grid::after {
     content: '';
     position: absolute;
@@ -39,7 +39,7 @@
     background: linear-gradient(to bottom, transparent 33%, #e5e7eb 33%, #e5e7eb 33.5%, transparent 33.5%, transparent 66%, #e5e7eb 66%, #e5e7eb 66.5%, transparent 66.5%);
 }
 
-/* 3. æ¼¢å­—å®¹å™¨ (é«˜å±¤) */
+/* 3. 漢字容器 (高層，HanziWriter 渲染處) */
 #hanziContainer {
     position: absolute;
     width: 100% !important; 
@@ -57,7 +57,7 @@
     height: 100% !important;
 }
 
-/* 4. æç¤ºæ–‡å­—æ¨£å¼ */
+/* 4. 提示文字樣式 (如：請輸入文字) */
 .prompt-text {
     position: absolute;
     top: 50%; left: 50%;
@@ -69,10 +69,10 @@
 }
 
 /* ============================================= */
-/* 5. é‡å°æ‰‹æ©Ÿèˆ‡å¹³æ¿ (å¯¬åº¦å°æ–¼ 600px) çš„æŽ’ç‰ˆå„ªåŒ– */
+/* 5. 針對手機與平板 (寬度小於 600px) 的排版優化 */
 /* ============================================= */
 @media (max-width: 600px) {
-    /* ä¿®æ­£è¼¸å…¥æ¡†èˆ‡æŒ‰éˆ•æ“ å£“ï¼šå¼·åˆ¶è®Šç‚ºä¸Šä¸‹æŽ’åˆ— */
+    /* 修正輸入框與按鈕擠壓：強制變為上下排列 */
     .flex.gap-2 {
         flex-direction: column !important;
     }
@@ -83,7 +83,7 @@
         margin-top: 4px;
     }
 
-    /* ç¸®å°ç•«æ¿å¤§å°ï¼šç¢ºä¿æ‰‹æ©Ÿä¸€å±èƒ½çœ‹å®Œæ•´å€‹ UI */
+    /* 縮小畫板大小：確保手機一屏能看完整個 UI */
     .drawing-container {
         width: 90vw !important;
         max-width: 320px !important;
@@ -94,7 +94,7 @@
         font-size: 1.1rem;
     }
 
-    /* ä¸‹æ–¹åŠŸèƒ½æŒ‰éˆ•èª¿æ•´ */
+    /* 下方功能按鈕調整 */
     .grid.grid-cols-2.gap-4 {
         gap: 10px !important;
     }
@@ -108,4 +108,5 @@
         font-size: 1.5rem !important;
         margin-bottom: 0.8rem !important;
     }
+
 }
